@@ -4,9 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="main">
+      <div class="converter container">
+        <div class="heading">Currency Converter</div>
+        <div class="currency-input-container">
+          <img
+            src="https://wise.com/public-resources/assets/flags/rectangle/usd.png"
+            alt=""
+            class="flag"
+          />
+          <input type="text" id="source-amount" />
+          <select
+            name="source-currency"
+            id="source-currency"
+            class="currency-select"
+          ></select>
+        </div>
+
+        <div class="currency-input-container">
+          <img
+            src="https://wise.com/public-resources/assets/flags/rectangle/usd.png"
+            alt=""
+            class="flag"
+          />
+          <input type="text" id="target-amount" />
+          <select
+            name="target-currency"
+            id="target-currency"
+            class="currency-select"
+          ></select>
+        </div>
+        <button id="convert-btn">CONVERT</button>
+
+        <div class="delete-history container">
+          <div class="heading">Delete Conversion History</div>
+          <button id="delete-history-btn">DELETE HISTORY</button>
+        </div>
+      </div>
+      <div class="conversion-history container">
+        <div class="heading">Conversion History</div>
+        <div class="conversion-history-table-container">
+          <table id="conversion-history-table"></table>
+        </div>
+      </div>
+    </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
   </body>
 </html>

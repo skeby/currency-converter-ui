@@ -1,0 +1,139 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.main {
+  height: 100vh;
+  margin: 0 auto;
+  padding: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: space-between; */
+  gap: 50px;
+}
+
+.container {
+  width: 100%;
+  /* max-width: 350px; */
+}
+
+.converter {
+  width: 50%;
+  height: 100%;
+}
+
+.conversion-history {
+  height: 100%;
+}
+
+.delete-history {
+  height: 100%;
+  margin-top: 3rem;
+}
+
+.delete-history .heading {
+  margin-bottom: 0;
+}
+.converter button {
+  width: 100%;
+  color: white;
+  font-weight: bold;
+  padding: 0.8rem 0;
+  background-color: rgb(57, 94, 165);
+  border: none;
+  outline: none;
+  border-radius: 0.25rem;
+  margin-top: 1.5rem;
+}
+
+.converter button:hover,
+.converter button:active {
+  cursor: pointer;
+  transform: scale(0.95);
+}
+
+.conversion-history-table-container {
+  padding: 2rem 1.5rem;
+  height: 350px;
+  overflow: auto;
+  border-radius: 0.25rem;
+  box-shadow: 0px 0px 8px #0000001a;
+}
+
+.conversion-history-table-container p {
+  text-align: center;
+}
+
+.conversion-history table {
+  width: 100%;
+  height: 50px;
+  font-size: 0.85rem;
+}
+
+.conversion-history table td,
+.conversion-history table th {
+  text-align: left;
+  padding: 0 0.5rem;
+}
+
+.conversion-history table td {
+  padding: 1rem 0.5rem;
+}
+
+.heading {
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.currency-input-container {
+  padding: 2rem 1.5rem;
+  margin-top: 1rem;
+  border-radius: 0.25rem;
+  box-shadow: 0px 0px 8px #0000001a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.currency-input-container img {
+  width: 40px;
+  box-shadow: 0px 0px 8px #0000001a;
+}
+
+.currency-input-container input {
+  /* height: 26.66px; */
+  padding-left: 0.8rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+  /* text-align: right; */
+}
+
+.currency-select {
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  outline: none;
+}
+
+@media (max-width: 875px) {
+  .main {
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .converter {
+    width: 100%;
+    height: auto;
+  }
+}
