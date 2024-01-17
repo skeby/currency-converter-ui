@@ -51,8 +51,7 @@ body {
   margin-top: 1.5rem;
 }
 
-.btn:hover,
-.btn:active {
+.btn:hover {
   cursor: pointer;
   transform: scale(0.95);
 }
