@@ -15,13 +15,13 @@ const getConversionRate = (sourceCurrency, targetCurrency) => {
 };
 
 const getConversionHistory = () => {
-  return fetch(`${API_BASE_URL}/history`)
+  return fetch(`${API_BASE_URL}/conversions`)
     .then((res) => res.json())
     .then((data) => data);
 };
 
 const postConversion = (conversionObj) => {
-  return fetch(`${API_BASE_URL}/create`, {
+  return fetch(`${API_BASE_URL}/conversions/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +31,7 @@ const postConversion = (conversionObj) => {
 };
 
 const deleteConversionHistory = () => {
-  return fetch(`${API_BASE_URL}/delete-history`, {
+  return fetch(`${API_BASE_URL}/conversions`, {
     method: "DELETE",
   });
 };
