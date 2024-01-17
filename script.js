@@ -30,10 +30,12 @@ let targetCurrency = "USD";
 let sourceAmount;
 let targetAmount;
 let currencies;
+let conversionHistory;
 
 ////////////////////////////
 //// Functions/Methods ////
 //////////////////////////
+// Map the currency codes and flagpaths to the currencies array
 currencies = currencyCodes.map((code) => {
   return {
     code: code,
@@ -43,6 +45,7 @@ currencies = currencyCodes.map((code) => {
 
 const displayCurrencyOptions = (select) => {
   let html = "";
+  // Display each currency as an option in the select tag
   currencies.forEach((currency) => {
     html +=
       currency.code === "USD"
@@ -56,20 +59,19 @@ const displayConversionHistory = () => {
   getConversionHistory()
     .then((data) => {
       // Handle the data
-      let conversionHistory = data;
+      conversionHistory = data;
+      // Display "No recent conversions" if conversion history is empty, else display the conversion history table
       if (conversionHistory.length === 0) {
         conversionHistoryTable.innerHTML = "<p>No recent conversions</p>";
       } else {
         displayConversionHistoryTable(conversionHistory);
       }
     })
-    .catch((error) => {
-      // Handle the error
-      console.error("Error:", error);
-    });
+    .catch((err) => console.error("An error occured: ", err));
 };
 
 const displayConversionHistoryTable = (conversionHistory) => {
+  // Display the table heads of conversion history table
   conversionHistoryTable.innerHTML = `
     <thead>
       <th>Source</th>
@@ -80,8 +82,11 @@ const displayConversionHistoryTable = (conversionHistory) => {
     </thead>
   `;
 
+  // Display each cell of the table
   conversionHistory.forEach((conversion) => {
+    // Create a new date object based on the dateTime property of the conversion
     const dateTime = new Date(conversion.dateTime);
+    // Create template html string of the table rows + data
     const html = `
       <tr>
         <td>${conversion.sourceCurrency} ${conversion.sourceAmount.toFixed(
@@ -101,8 +106,16 @@ const displayConversionHistoryTable = (conversionHistory) => {
   });
 };
 
+const toggleButtonDisability = (button, disable) => {
+  // Toggle the disability based on the condition passed as argument
+  button.disabled = disable;
+  button.classList.toggle("button-disabled");
+};
+
 currencySelect.forEach((select, i) => {
+  // Display the currency options for each of the currency select tags
   displayCurrencyOptions(select);
+  // Attach change event listeners to change the flag depending on the current value of the selected option
   select.addEventListener("change", (e) => {
     const selectedCurrency = e.target.value;
     flags[i].src = currencies.find(
@@ -121,13 +134,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 convertBtn.addEventListener("click", () => {
-  // Make sure table is visible
-  // conversionHistoryTable.style.display = "table";
-
+  // Disable the convert button
+  toggleButtonDisability(convertBtn, true);
   // Get source amount
   sourceAmount = Number(document.getElementById("source-amount").value);
+
+  // Display an error alert and re-enable the convert button if the source amount is undefined
   if (!sourceAmount) {
     alert("Please enter a valid source amount");
+    toggleButtonDisability(convertBtn, false);
     return;
   }
 
@@ -137,14 +152,14 @@ convertBtn.addEventListener("click", () => {
       // Calculate target amount
       targetAmount = sourceAmount * conversionRate;
 
-      // Create date time string (date and time of conversion)
+      // Create date-time string (date and time of conversion) in ISO format
       const date = new Date();
       dateTime = date.toISOString();
 
       // Display target amount
       targetAmountDisplay.value = targetAmount.toFixed(2);
 
-      // Send conversion to backend
+      // Post (send) conversion to backend
       postConversion({
         dateTime,
         sourceCurrency,
@@ -153,6 +168,8 @@ convertBtn.addEventListener("click", () => {
         targetAmount,
       })
         .then(() => {
+          // Enable the convert button and display conversion history when the conversion has been posted to the backend
+          toggleButtonDisability(convertBtn, false);
           displayConversionHistory();
         })
         .catch((err) => console.error("An error occured: ", err));
@@ -161,10 +178,22 @@ convertBtn.addEventListener("click", () => {
 });
 
 deleteHistoryBtn.addEventListener("click", () => {
+  // Disable the delete history button
+  toggleButtonDisability(deleteHistoryBtn, true);
+
+  // Alert "no recent conversions" and enable delete history button if the conversion history is empty
+  if (conversionHistory.length === 0) {
+    alert("No recent conversions to delete");
+    toggleButtonDisability(deleteHistoryBtn, false);
+    return;
+  }
+
   deleteConversionHistory()
     .then(() => {
-      displayConversionHistory();
+      // Alert "conversion history deleted", enable delete history button and display conversion history
       alert("Conversion history deleted");
+      toggleButtonDisability(deleteHistoryBtn, false);
+      displayConversionHistory();
     })
     .catch((err) => console.error("An error occured: ", err));
 });

@@ -39,7 +39,7 @@ body {
 .delete-history .heading {
   margin-bottom: 0;
 }
-.converter button {
+.btn {
   width: 100%;
   color: white;
   font-weight: bold;
@@ -51,8 +51,8 @@ body {
   margin-top: 1.5rem;
 }
 
-.converter button:hover,
-.converter button:active {
+.btn:hover,
+.btn:active {
   cursor: pointer;
   transform: scale(0.95);
 }
@@ -124,6 +124,15 @@ body {
   font-weight: bold;
   border: none;
   outline: none;
+}
+
+.button-disabled {
+  background-color: rgb(139, 139, 139);
+}
+
+.button-disabled:hover {
+  cursor: not-allowed;
+  transform: none;
 }
 
 @media (max-width: 875px) {
