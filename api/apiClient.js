@@ -3,13 +3,14 @@ const CURRENCY_API_BASE_URL = "https://api.currencyapi.com/v3/latest";
 const CURRENCY_API_KEY = "cur_live_LStHL49w6UlmsQf1fGQj10Rz7lsTNNmRHxB9PYhf";
 
 const getConversionRate = (sourceCurrency, targetCurrency) => {
-  return fetch(`${CURRENCY_API_BASE_URL}`, {
-    headers: {
-      apiKey: CURRENCY_API_KEY,
-      currencies: targetCurrency,
-      base_currency: sourceCurrency,
-    },
-  })
+  return fetch(
+    `${CURRENCY_API_BASE_URL}?currencies=${targetCurrency}&base_currency=${sourceCurrency}`,
+    {
+      headers: {
+        apiKey: CURRENCY_API_KEY,
+      },
+    }
+  )
     .then((res) => res.json())
     .then((data) => data.data[targetCurrency].value);
 };
