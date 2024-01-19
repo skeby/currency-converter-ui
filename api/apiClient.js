@@ -1,6 +1,7 @@
 const API_BASE_URL = "http://localhost:3000/api";
 const CURRENCY_API_BASE_URL = "https://api.currencyapi.com/v3/latest";
-const CURRENCY_API_KEY = "cur_live_LStHL49w6UlmsQf1fGQj10Rz7lsTNNmRHxB9PYhf";
+// const CURRENCY_API_KEY = "cur_live_LStHL49w6UlmsQf1fGQj10Rz7lsTNNmRHxB9PYhf";
+const CURRENCY_API_KEY = "cur_live_nwoLuu7lpyDGmOBfSvOQvJpfalA4tqZszdD0SdxW";
 
 const getConversionRate = (sourceCurrency, targetCurrency) => {
   return fetch(
