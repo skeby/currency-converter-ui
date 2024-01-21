@@ -134,6 +134,11 @@ body {
   transform: none;
 }
 
+#target-amount:disabled {
+  background-color: transparent;
+  color: black;
+}
+
 @media (max-width: 875px) {
   .main {
     flex-direction: column;

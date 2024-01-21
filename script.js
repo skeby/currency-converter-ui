@@ -131,6 +131,7 @@ currencySelect.forEach((select, i) => {
 //////////////////////////
 document.addEventListener("DOMContentLoaded", () => {
   displayConversionHistory();
+  document.getElementById("source-amount").focus();
 });
 
 convertBtn.addEventListener("click", () => {
