@@ -22,13 +22,13 @@ const getConversionHistory = () => {
     .then((data) => data);
 };
 
-const postConversion = (conversionObj) => {
+const postConversion = (conversion) => {
   return fetch(`${API_BASE_URL}/conversions/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(conversionObj),
+    body: JSON.stringify(conversion),
   });
 };
 
