@@ -25,8 +25,8 @@ const conversionHistoryTable = document.getElementById(
 // Variable Declarations //
 //////////////////////////
 let dateTime;
-let sourceCurrency = "USD";
-let targetCurrency = "USD";
+let sourceCurrency = "NGN";
+let targetCurrency = "NGN";
 let sourceAmount;
 let targetAmount;
 let currencies;
@@ -48,7 +48,7 @@ const displayCurrencyOptions = (select) => {
   // Display each currency as an option in the select tag
   currencies.forEach((currency) => {
     html +=
-      currency.code === "USD"
+      currency.code === "NGN"
         ? `<option value="${currency.code}" selected>${currency.code}</option>`
         : `<option value="${currency.code}">${currency.code}</option>`;
   });
