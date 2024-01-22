@@ -43,6 +43,8 @@ body {
   width: 100%;
   color: white;
   font-weight: bold;
+  font-size: 0.875rem;
+  letter-spacing: 0.01rem;
   padding: 0.8rem 0;
   background-color: rgb(57, 94, 165);
   border: none;
