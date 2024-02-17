@@ -1,4 +1,8 @@
-const API_BASE_URL = "https://currency-converter-api-skeby.vercel.app/api";
+const NODE_ENV = "production";
+const API_BASE_URL =
+  NODE_ENV === "development"
+    ? "http://localhost:3000/api"
+    : "https://currency-converter-api-skeby.vercel.app/api";
 const CURRENCY_API_BASE_URL = "https://api.currencyapi.com/v3/latest";
 // const CURRENCY_API_KEY = "cur_live_LStHL49w6UlmsQf1fGQj10Rz7lsTNNmRHxB9PYhf";
 const CURRENCY_API_KEY = "cur_live_nwoLuu7lpyDGmOBfSvOQvJpfalA4tqZszdD0SdxW";
