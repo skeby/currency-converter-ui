@@ -20,13 +20,17 @@ const targetAmountDisplay = document.getElementById("target-amount");
 const conversionHistoryTable = document.getElementById(
   "conversion-history-table"
 );
+const conversionHistoryTableContainer = document.querySelector(
+  ".conversion-history-table-container"
+);
+const tableLoader = document.querySelector("#table-loader");
 
 ////////////////////////////
 // Variable Declarations //
 //////////////////////////
 let dateTime;
 let sourceCurrency = "NGN";
-let targetCurrency = "NGN";
+let targetCurrency = "";
 let sourceAmount;
 let targetAmount;
 let currencies;
@@ -43,12 +47,13 @@ currencies = currencyCodes.map((code) => {
   };
 });
 
-const displayCurrencyOptions = (select) => {
-  let html = "";
+const displayCurrencyOptions = (select, selectType) => {
+  let html =
+    selectType === "target" ? "<option value='' selected></option>" : "";
   // Display each currency as an option in the select tag
   currencies.forEach((currency) => {
     html +=
-      currency.code === "NGN"
+      selectType === "source" && currency.code === "NGN"
         ? `<option value="${currency.code}" selected>${currency.code}</option>`
         : `<option value="${currency.code}">${currency.code}</option>`;
   });
@@ -56,6 +61,8 @@ const displayCurrencyOptions = (select) => {
 };
 
 const displayConversionHistory = () => {
+  // Display the loader while the conversion history is being fetched
+  if ((tableLoader.style.display = "none")) tableLoader.style.display = "flex";
   getConversionHistory()
     .then((data) => {
       // Handle the data
@@ -63,9 +70,15 @@ const displayConversionHistory = () => {
       // Display "No recent conversions" if conversion history is empty, else display the conversion history table
       if (conversionHistory.length === 0) {
         conversionHistoryTable.innerHTML = "<p>No recent conversions</p>";
+        conversionHistoryTable.classList.add("conversion-history__no-results");
       } else {
+        conversionHistoryTable.classList.remove(
+          "conversion-history__no-results"
+        );
         displayConversionHistoryTable(conversionHistory);
       }
+      // Hide the loader after the conversion history has been displayed
+      tableLoader.style.display = "none";
     })
     .catch((err) => console.error("An error occured: ", err));
 };
@@ -88,13 +101,19 @@ const displayConversionHistoryTable = (conversionHistory) => {
     const dateTime = new Date(conversion.dateTime);
     // Create template html string of the table rows + data
     const html = `
-      <tr>
-        <td>${conversion.sourceCurrency} ${conversion.sourceAmount.toFixed(
-      2
-    )}</td>
-        <td>${conversion.targetCurrency} ${conversion.targetAmount.toFixed(
-      2
-    )}</td>
+    <tr>
+    <td>${conversion.sourceCurrency} ${parseFloat(
+      conversion.sourceAmount
+    ).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}</td>
+    <td>${conversion.targetCurrency} ${parseFloat(
+      conversion.targetAmount
+    ).toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}</td>
         <td>${(conversion.targetAmount / conversion.sourceAmount).toFixed(
           2
         )}</td>
@@ -114,13 +133,22 @@ const toggleButtonDisability = (button, disable) => {
 
 currencySelect.forEach((select, i) => {
   // Display the currency options for each of the currency select tags
-  displayCurrencyOptions(select);
+  displayCurrencyOptions(select, i === 0 ? "source" : "target");
   // Attach change event listeners to change the flag depending on the current value of the selected option
   select.addEventListener("change", (e) => {
     const selectedCurrency = e.target.value;
-    flags[i].src = currencies.find(
+
+    const flagImage = currencies.find(
       (currency) => currency.code === selectedCurrency
-    ).flagPath;
+    )?.flagPath;
+
+    flags[i].src =
+      selectedCurrency && flagImage ? flagImage : "/assets/image-not-found.jpg";
+
+    flags[i].onerror = () => {
+      flags[i].src = "/assets/image-not-found.jpg";
+    };
+
     sourceCurrency = currencySelect[0].value;
     targetCurrency = currencySelect[1].value;
   });
@@ -135,6 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 convertBtn.addEventListener("click", () => {
+  // Clear the target amount display
+  targetAmountDisplay.value = "";
   // Disable the convert button
   toggleButtonDisability(convertBtn, true);
   // Get source amount
@@ -144,9 +174,18 @@ convertBtn.addEventListener("click", () => {
   if (!sourceAmount) {
     alert("Please enter a valid source amount");
     toggleButtonDisability(convertBtn, false);
+    convertBtn.classList.toggle(".loader");
     return;
   }
 
+  if (!targetCurrency) {
+    alert("Please select a target currency");
+    toggleButtonDisability(convertBtn, false);
+    convertBtn.classList.toggle(".loader");
+    return;
+  }
+
+  tableLoader.style.display = "flex";
   // Get conversion rate
   getConversionRate(sourceCurrency, targetCurrency)
     .then((conversionRate) => {
@@ -171,6 +210,7 @@ convertBtn.addEventListener("click", () => {
         .then(() => {
           // Enable the convert button and display conversion history when the conversion has been posted to the backend
           toggleButtonDisability(convertBtn, false);
+          convertBtn.classList.toggle(".loader");
           displayConversionHistory();
         })
         .catch((err) => console.error("An error occured: ", err));
@@ -183,16 +223,17 @@ deleteHistoryBtn.addEventListener("click", () => {
   toggleButtonDisability(deleteHistoryBtn, true);
 
   // Alert "no recent conversions" and enable delete history button if the conversion history is empty
-  if (conversionHistory.length === 0) {
+  if (conversionHistory?.length === 0) {
     alert("No recent conversions to delete");
     toggleButtonDisability(deleteHistoryBtn, false);
     return;
   }
 
+  if ((tableLoader.style.display = "none")) tableLoader.style.display = "flex";
+
   deleteConversionHistory()
     .then(() => {
-      // Alert "conversion history deleted", enable delete history button and display conversion history
-      alert("Conversion history deleted");
+      // Enable delete history button and display conversion history
       toggleButtonDisability(deleteHistoryBtn, false);
       displayConversionHistory();
     })

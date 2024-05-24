@@ -11,44 +11,50 @@
     <div class="main">
       <div class="converter container">
         <div class="heading">Currency Converter</div>
-        <div class="currency-input-container">
-          <img
-            src="https://wise.com/public-resources/assets/flags/rectangle/ngn.png"
-            alt=""
-            class="flag"
-          />
-          <input type="number" id="source-amount" placeholder="Input amount" />
-          <select
-            name="source-currency"
-            id="source-currency"
-            class="currency-select"
-          ></select>
-        </div>
+        <div class="converter-container">
+          <div class="currency-input-container">
+            <img
+              src="https://wise.com/public-resources/assets/flags/rectangle/ngn.png"
+              alt=""
+              class="flag"
+            />
+            <input
+              type="number"
+              id="source-amount"
+              placeholder="Input amount"
+            />
+            <select
+              name="source-currency"
+              id="source-currency"
+              class="currency-select"
+            ></select>
+          </div>
 
-        <div class="currency-input-container">
-          <img
-            src="https://wise.com/public-resources/assets/flags/rectangle/ngn.png"
-            alt=""
-            class="flag"
-          />
-          <input type="text" id="target-amount" disabled />
-          <select
-            name="target-currency"
-            id="target-currency"
-            class="currency-select"
-          ></select>
-        </div>
-        <button id="convert-btn" class="btn">Convert</button>
+          <div class="currency-input-container">
+            <img src="" alt="" class="flag" />
+            <input type="text" id="target-amount" disabled />
+            <select
+              name="target-currency"
+              id="target-currency"
+              class="currency-select"
+            ></select>
+          </div>
+          <button id="convert-btn" class="btn">Convert</button>
 
-        <div class="delete-history container">
-          <div class="heading">Delete Conversion History</div>
-          <button id="delete-history-btn" class="btn">Delete History</button>
+          <div class="delete-history container">
+            <div class="heading">Delete Conversion History</div>
+            <button id="delete-history-btn" class="btn">Delete History</button>
+          </div>
         </div>
       </div>
       <div class="conversion-history container">
         <div class="heading">Conversion History</div>
         <div class="conversion-history-table-container">
-          <table id="conversion-history-table"></table>
+          <table id="conversion-history-table">
+            <div id="table-loader" style="display: none">
+              <img src="assets/loader.svg" alt="loader" />
+            </div>
+          </table>
         </div>
       </div>
     </div>
