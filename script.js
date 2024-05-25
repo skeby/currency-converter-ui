@@ -77,10 +77,14 @@ const displayConversionHistory = () => {
         );
         displayConversionHistoryTable(conversionHistory);
       }
-      // Hide the loader after the conversion history has been displayed
-      tableLoader.style.display = "none";
     })
-    .catch((err) => console.error("An error occured: ", err));
+    .catch((err) => {
+      console.error("An error occured: ", err);
+      alert("Something went wrong, please try again later");
+    })
+    .finally(() => {
+      tableLoader.style.display = "none";
+    });
 };
 
 const displayConversionHistoryTable = (conversionHistory) => {
@@ -114,11 +118,18 @@ const displayConversionHistoryTable = (conversionHistory) => {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     })}</td>
-        <td>${(conversion.targetAmount / conversion.sourceAmount).toFixed(
-          2
-        )}</td>
+        <td>${parseFloat(
+          conversion.targetAmount / conversion.sourceAmount
+        ).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}</td>
         <td>${dateTime.toLocaleDateString("en-GB")}</td>
-        <td>${dateTime.toLocaleTimeString()}</td>
+        <td>${dateTime.toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        })}</td>
       </tr>
     `;
     conversionHistoryTable.insertAdjacentHTML("afterbegin", html);
@@ -185,7 +196,7 @@ convertBtn.addEventListener("click", () => {
     return;
   }
 
-  tableLoader.style.display = "flex";
+  if ((tableLoader.style.display = "none")) tableLoader.style.display = "flex";
   // Get conversion rate
   getConversionRate(sourceCurrency, targetCurrency)
     .then((conversionRate) => {
@@ -209,13 +220,21 @@ convertBtn.addEventListener("click", () => {
       })
         .then(() => {
           // Enable the convert button and display conversion history when the conversion has been posted to the backend
-          toggleButtonDisability(convertBtn, false);
           convertBtn.classList.toggle(".loader");
           displayConversionHistory();
         })
-        .catch((err) => console.error("An error occured: ", err));
+        .catch((err) => {
+          console.error("An error occured: ", err);
+        });
     })
-    .catch((err) => console.error("An error occured: ", err));
+    .catch((err) => {
+      console.error("An error occured: ", err);
+      alert("Something went wrong, please try again later");
+    })
+    .finally(() => {
+      toggleButtonDisability(convertBtn, false);
+      tableLoader.style.display = "none";
+    });
 });
 
 deleteHistoryBtn.addEventListener("click", () => {
@@ -234,8 +253,14 @@ deleteHistoryBtn.addEventListener("click", () => {
   deleteConversionHistory()
     .then(() => {
       // Enable delete history button and display conversion history
-      toggleButtonDisability(deleteHistoryBtn, false);
       displayConversionHistory();
     })
-    .catch((err) => console.error("An error occured: ", err));
+    .catch((err) => {
+      console.error("An error occured: ", err);
+      alert("Something went wrong, please try again later");
+    })
+    .finally(() => {
+      tableLoader.style.display = "none";
+      toggleButtonDisability(deleteHistoryBtn, false);
+    });
 });

@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 * {
-  font-family: "Poppins", sans-serif;
+  font-family: "Roboto", sans-serif;
+  color: rgb(9, 29, 66);
 }
 
 body {
@@ -50,7 +53,7 @@ body {
 
 .btn {
   width: 100%;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 0.875rem;
   letter-spacing: 0.01rem;
   padding: 0.8rem 0;
@@ -64,7 +67,14 @@ body {
 
 .btn:hover {
   cursor: pointer;
-  transform: scale(0.95);
+  transform: scale(0.98);
+  transition: all 0.3s ease;
+  background-color: rgb(9, 29, 66);
+}
+
+#source-amount::placeholder {
+  font-weight: 500;
+  color: rgb(139, 139, 139);
 }
 
 .converter-container {
@@ -97,20 +107,22 @@ body {
 }
 
 .conversion-history table {
-  border-radius: 4px;
+  border-radius: 8px;
   border-collapse: collapse;
   overflow: hidden;
 }
 .conversion-history table th {
   text-align: left;
-  padding: 0.8rem 1rem;
+  padding: 1rem 1rem;
   font-weight: 500;
   background-color: rgb(57, 94, 165);
   color: white;
+  /* border-right: 1px solid white; */
 }
 
 .conversion-history table td {
   padding: 1.5rem 1rem;
+  font-weight: 500;
 }
 
 .conversion-history table tbody {

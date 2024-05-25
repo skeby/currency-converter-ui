@@ -1,5 +1,5 @@
-// const NODE_ENV = "production";
-const NODE_ENV = "development";
+const NODE_ENV = "production";
+// const NODE_ENV = "development";
 const API_BASE_URL =
   NODE_ENV === "development"
     ? "http://localhost:3000/api"
