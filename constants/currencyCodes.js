@@ -10,7 +10,7 @@ export default [
   "AWG",
   "AZN",
   "BAM",
-  "BBD",
+  // "BBD",
   "BDT",
   "BGN",
   "BHD",
